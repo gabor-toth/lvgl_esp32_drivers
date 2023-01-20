@@ -50,8 +50,10 @@
  **********************/
 
 /* Interface and driver initialization */
-void lvgl_driver_init(void)
+void* lvgl_driver_init(void)
 {
+    void *result = NULL;
+
     /* Since LVGL v8 LV_HOR_RES_MAX and LV_VER_RES_MAX are not defined, so
      * print it only if they are defined. */
 #if (LVGL_VERSION_MAJOR < 8)
@@ -69,13 +71,13 @@ void lvgl_driver_init(void)
         DISP_SPI_IO2, DISP_SPI_IO3);
 
     disp_spi_add_device(TFT_SPI_HOST);
-    disp_driver_init();
+    result = disp_driver_init();
 
 #if defined (CONFIG_LV_TOUCH_CONTROLLER_FT81X)
     touch_driver_init();
 #endif
 
-    return;
+    return result;
 #endif
 
 #if defined (SHARED_SPI_BUS)
@@ -87,12 +89,12 @@ void lvgl_driver_init(void)
         -1, -1);
 
     disp_spi_add_device(TFT_SPI_HOST);
-    tp_spi_add_device(TOUCH_SPI_HOST);
+    tp_spi_add_device(TFT_SPI_HOST);
 
-    disp_driver_init();
+    result = disp_driver_init();
     touch_driver_init();
 
-    return;
+    return result; 
 #endif
 
 /* Display controller initialization */
@@ -136,6 +138,7 @@ void lvgl_driver_init(void)
     #error "No protocol defined for touch controller"
     #endif
 #else
+    return NULL;
 #endif
 }
 
