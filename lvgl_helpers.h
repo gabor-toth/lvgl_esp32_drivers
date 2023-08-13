@@ -38,7 +38,8 @@ extern "C" {
 #define DISP_BUF_SIZE   CONFIG_CUSTOM_DISPLAY_BUFFER_BYTES
 #else
 #if (LVGL_VERSION_MAJOR >= 8)
-#error you have to define CONFIG_CUSTOM_DISPLAY_BUFFER_BYTES
+//#error you have to define CONFIG_CUSTOM_DISPLAY_BUFFER_BYTES
+#define DISP_BUF_SIZE   0
 #else
 #if defined (CONFIG_LV_TFT_DISPLAY_CONTROLLER_ST7789)
 #define DISP_BUF_SIZE  (LV_HOR_RES_MAX * 40)
